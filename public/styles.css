@@ -1,12 +1,7 @@
-a {
-  display: inline;
-}
 
 .front-delete {
   background-color: #DD7722;
   display: inline;
-}
-
-li {
-  display: inline;
+  margin-left: 70%;
+  margin-top: -9%;
 }

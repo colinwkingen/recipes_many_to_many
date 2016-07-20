@@ -27,6 +27,12 @@ get('/ingredients/:id') do
   erb(:ingredient)
 end
 
+get('/categories/:id') do
+  @category = Category.find(params['id'].to_i)
+  @recipes = @category.recipes()
+  erb(:category)
+end
+
 post('/recipes/:id/ingredients') do
   @recipe = Recipe.find(params['id'].to_i)
   name = params['name']
@@ -45,15 +51,8 @@ end
 post('/recipes/:id/categories') do
   @recipe = Recipe.find(params['id'].to_i)
   category = params['category']
-  if Category.exists?(category) == false
-    new_category = Category.create({name: category})
-    @recipe.categories.push(new_category)
-  else
-    found_category = Category.find_by_name(category)
-    if Category.find_by_name(found_category.name()) == found_category
-      @recipe.categories.push(found_category)
-    end
-  end
+  new_category = Category.find_or_create_by(name: category)
+  @recipe.categories.push(new_category)
   redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
@@ -66,6 +65,12 @@ end
 delete('/ingredients/:id') do
   ingredient = Ingredient.find(params['id'].to_i)
   ingredient.destroy()
+  redirect to('/')
+end
+
+delete('/categories/:id') do
+  category = Category.find(params['id'].to_i)
+  category.destroy()
   redirect to('/')
 end
 
