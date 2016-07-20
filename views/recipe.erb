@@ -1,0 +1,22 @@
+<h1><%= @recipe.name() %></h1>
+
+<div class="row">
+  <div class="col-xs-6">
+    <form class="" action="/recipes/<%= @recipe.id() %>/ingredients" method="post">
+      <div class="form-group">
+        <label for="name">Add ingredient</label>
+        <input id="name" type="text" name="name">
+      </div>
+      <button type="submit" class="btn btn-primary">Add integredient</button>
+    </form>
+    <a href="/" class="btn btn-default active" role="button">Home</a>
+  </div>
+  <div class="col-xs-6">
+    <h4>Ingredients:</h4>
+    <ul class="list-group">
+      <% @recipe.ingredients.each do |ingredient| %>
+        <li class="list-group-item"> <%= ingredient.name() %> </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
