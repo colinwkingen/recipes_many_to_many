@@ -17,9 +17,4 @@ describe(Recipe) do
     expect(recipe.categories()).to(eq([category1,category2]))
   end
 
-  it "can update its ingredients" do
-    recipe = Recipe.create({:name => "Turtle Soup"})
-    recipe.update({indgredients: 'Butter'})
-    expect(recipe.ingredients()).to(eq('Butter'))
-  end
 end

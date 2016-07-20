@@ -9,6 +9,10 @@
       </div>
       <button type="submit" class="btn btn-primary">Add integredient</button>
     </form>
+    <form class="" action="/recipes/<%= @recipe.id() %>" method="post">
+      <input name= "_method" type="hidden" value="delete">
+      <button class = "btn btn-danger" type="submit">Delete Recipe</button>
+    </form>
     <a href="/" class="btn btn-default active" role="button">Home</a>
   </div>
   <div class="col-xs-6">

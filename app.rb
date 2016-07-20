@@ -30,23 +30,26 @@ end
 post('/recipes/:id/ingredients') do
   @recipe = Recipe.find(params['id'].to_i)
   name = params['name']
-  all_ingredients = Ingredient.all()
-  all_ingredients.each() do |ingredient|
-    if ingredient.name() == name
-      @recipe.update({ingredient_ids => [ingredient.id()]})
-      # @recipe.ingredients.push(ingredient)
-      redirect to ('/recipes/' + @recipe.id().to_s)
-    else
-      new_ingredient = Ingredient.create({name: name})
-      @recipe.ingredients.push(new_ingredient)
-      redirect to ('/recipes/' + @recipe.id().to_s)
+  if Ingredient.exists?(name) == false
+    new_ingredient = Ingredient.create({name: name})
+    @recipe.ingredients.push(new_ingredient)
+  else
+    found_ingredient = Ingredient.find_by_name(name)
+    if Ingredient.find_by_name(found_ingredient.name()) == found_ingredient
+      @recipe.ingredients.push(found_ingredient)
     end
   end
+  redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
-# patch('/recipes/:id') do
-#   @recipe = Recipe.find(params['id'].to_i)
-#   ingredients = params['ingredients']
-#   @recipe.update({ingredients: ingredients})
-#   redirect to ('/')
-# end
+delete('/recipes/:id') do
+  recipe = Recipe.find(params['id'].to_i)
+  recipe.destroy()
+  redirect to('/')
+end
+
+delete('/ingredients/:id') do
+  ingredient = Ingredient.find(params['id'].to_i)
+  ingredient.destroy()
+  redirect to('/')
+end
