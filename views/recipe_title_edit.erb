@@ -1,0 +1,10 @@
+<form class="well" action="/recipes/<%= @recipe.id() %>" method="post">
+  <input name="_method" type="hidden" value="patch">
+  <div class="form-group">
+    <label for="name">Edit Recipe Title </label>
+    <input id = "name" type="text" name="name" value="<%=@recipe.name%>" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-success">Update Recipe</button>
+</form>
+
+<a href="/" class="btn btn-default active" role="button">Home</a>

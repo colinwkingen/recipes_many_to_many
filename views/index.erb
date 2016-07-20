@@ -2,24 +2,34 @@
 
 <div class="row container">
   <div class="col-xs-4">
-    <h3>Find recipes by ingredient:</h3>
+    <h3>Find by ingredient:</h3>
     <ul class="list-group">
       <% @ingredients.each do |ingredient| %>
         <li class="list-group-item"><a href="ingredients/<%= ingredient.id%>"> <%= ingredient.name() %> </a>
           <form class="" action="/ingredients/<%= ingredient.id() %>" method="post">
             <input name= "_method" type="hidden" value="delete">
-            <button class = "btn btn-danger btn-sm" type="submit">Delete</button>
+            <button class = "front-delete btn btn-danger btn-sm" type="submit">Delete</button>
           </form>
         </li>
       <% end %>
     </ul>
   </div>
   <div class="col-xs-4">
-    <h3>Find recipes by category:</h3>
+    <h3>Find by category:</h3>
+    <ul class="list-group">
+      <% @categories.each do |category| %>
+        <li class="list-group-item"><a href="categories/<%= category.id%>"> <%= category.name() %> </a>
+          <form class="" action="/categories/<%= category.id() %>" method="post">
+            <input name= "_method" type="hidden" value="delete">
+            <button class = "front-delete btn btn-danger btn-sm" type="submit">Delete</button>
+          </form>
+        </li>
+      <% end %>
+    </ul>
 
   </div>
   <div class="col-xs-4">
-    <h3>Find a recipe by name:</h3>
+    <h3>Find by name:</h3>
     <ul class="list-group">
       <% @recipes.each do |recipe| %>
         <li class="list-group-item"><a href="recipes/<%= recipe.id%>"> <%= recipe.name() %> </a></li>

@@ -42,6 +42,21 @@ post('/recipes/:id/ingredients') do
   redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
+post('/recipes/:id/categories') do
+  @recipe = Recipe.find(params['id'].to_i)
+  category = params['category']
+  if Category.exists?(category) == false
+    new_category = Category.create({name: category})
+    @recipe.categories.push(new_category)
+  else
+    found_category = Category.find_by_name(category)
+    if Category.find_by_name(found_category.name()) == found_category
+      @recipe.categories.push(found_category)
+    end
+  end
+  redirect to ('/recipes/' + @recipe.id().to_s)
+end
+
 delete('/recipes/:id') do
   recipe = Recipe.find(params['id'].to_i)
   recipe.destroy()
@@ -52,4 +67,16 @@ delete('/ingredients/:id') do
   ingredient = Ingredient.find(params['id'].to_i)
   ingredient.destroy()
   redirect to('/')
+end
+
+get('/recipes/:id/edit') do
+  @recipe = Recipe.find(params['id'].to_i)
+  erb(:recipe_title_edit)
+end
+
+patch('/recipes/:id') do
+  name = params['name']
+  @recipe = Recipe.find(params['id'])
+  @recipe.update({name: name})
+  redirect('/recipes/' + @recipe.id.to_s)
 end

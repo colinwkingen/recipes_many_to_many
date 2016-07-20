@@ -1,25 +1,46 @@
 <h1><%= @recipe.name() %></h1>
+<a href="/recipes/<%=@recipe.id()%>/edit" class="btn btn-warning active" role="button">Edit Recipe Title</a>
+<hr>
+
 
 <div class="row">
-  <div class="col-xs-6">
+  <div class="col-xs-4">
     <form class="" action="/recipes/<%= @recipe.id() %>/ingredients" method="post">
       <div class="form-group">
-        <label for="name">Add ingredient</label>
+        <label for="name">New ingredient:</label>
         <input id="name" type="text" name="name">
       </div>
-      <button type="submit" class="btn btn-primary">Add integredient</button>
+      <button type="submit" class="btn btn-primary">Add ingredient</button>
     </form>
+    <hr>
+    <form class="" action="/recipes/<%= @recipe.id() %>/categories" method="post">
+      <div class="form-group">
+        <label for="category">New category name:</label>
+        <input id="category" type="text" name="category">
+      </div>
+      <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+    <hr>
     <form class="" action="/recipes/<%= @recipe.id() %>" method="post">
       <input name= "_method" type="hidden" value="delete">
       <button class = "btn btn-danger" type="submit">Delete Recipe</button>
     </form>
+    <hr>
     <a href="/" class="btn btn-default active" role="button">Home</a>
   </div>
-  <div class="col-xs-6">
+  <div class="col-xs-4">
     <h4>Ingredients:</h4>
     <ul class="list-group">
       <% @recipe.ingredients.each do |ingredient| %>
         <li class="list-group-item"> <%= ingredient.name() %> </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-xs-4">
+    <h4>Categories this recipe belongs in:</h4>
+    <ul class="list-group">
+      <% @recipe.categories.each do |category| %>
+        <li class="list-group-item"> <%= category.name() %> </li>
       <% end %>
     </ul>
   </div>
