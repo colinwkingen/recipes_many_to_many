@@ -48,6 +48,22 @@ end
 #   redirect to ('/recipes/' + @recipe.id().to_s)
 # end
 
+
+post('/recipes/:recipe_id/ingredients/:ingredient_id/remove') do
+  ingredient = Ingredient.find(params['ingredient_id'])
+  @recipe = Recipe.find(params['recipe_id'])
+  @recipe.ingredients.delete(ingredient)
+  redirect to ('/recipes/' + @recipe.id().to_s)
+end
+
+post('/recipes/:recipe_id/categories/:category_id/remove') do
+  category = Category.find(params['category_id'])
+  @recipe = Recipe.find(params['recipe_id'])
+  @recipe.categories.delete(category)
+  redirect to ('/recipes/' + @recipe.id().to_s)
+end
+
+
 post('/recipes/:id/ingredients') do
   @recipe = Recipe.find(params['id'].to_i)
   ingredient = params['name']
@@ -56,13 +72,13 @@ post('/recipes/:id/ingredients') do
     found = nil
     @recipe.ingredients.each do |ingredient|
       if ingredient.name() == new_ingredient.name()
-        next
-      else
         found = true
+      else
+        # found = true
       end
-      if found == true
-        @recipe.ingredients.push(new_ingredient)
-      end
+    end
+    if found != true
+      @recipe.ingredients.push(new_ingredient)
     end
   else
     @recipe.ingredients.push(new_ingredient)
@@ -79,13 +95,13 @@ post('/recipes/:id/categories') do
     found = nil
     @recipe.categories.each do |category|
       if category.name() == new_category.name()
-        next
-      else
         found = true
+      else
+
       end
-      if found == true
-        @recipe.categories.push(new_category)
-      end
+    end
+    if found != true
+      @recipe.categories.push(new_category)
     end
   else
     @recipe.categories.push(new_category)
@@ -118,7 +134,8 @@ end
 
 patch('/recipes/:id') do
   name = params['name']
+  instructions = params['instructions']
   @recipe = Recipe.find(params['id'])
-  @recipe.update({name: name})
+  @recipe.update({name: name, instruction: instructions})
   redirect('/recipes/' + @recipe.id.to_s)
 end
