@@ -4,7 +4,7 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 
 get('/') do
-  @recipes = Recipe.all()
+  @recipes = Recipe.all().order("rating desc")
   @ingredients = Ingredient.all()
   @categories = Category.all()
   erb(:index)
@@ -13,7 +13,7 @@ end
 post('/recipes') do
   name = params.fetch('name')
   if name.length >= 3
-    @new_recipe = Recipe.create({name: name})
+    @new_recipe = Recipe.create({name: name, rating: 0})
     redirect to('/')
   else
     redirect to('/')
@@ -37,6 +37,13 @@ get('/categories/:id') do
   erb(:category)
 end
 
+post('/recipes/:id/rating') do
+  @recipe = Recipe.find(params['id'].to_i)
+  rating = params['rating'].to_i
+  @recipe.update({rating: rating})
+  redirect to ('/recipes/' + @recipe.id().to_s)
+end
+
 
 post('/recipes/:recipe_id/ingredients/:ingredient_id/remove') do
   ingredient = Ingredient.find(params['ingredient_id'])
@@ -55,15 +62,14 @@ end
 
 post('/recipes/:id/ingredients') do
   @recipe = Recipe.find(params['id'].to_i)
-  ingredient = params['name']
+  ingredient = params['name'].capitalize()
   new_ingredient = Ingredient.find_or_create_by(name: ingredient)
-  if new_ingredient.save()
+  if Ingredient.find_by_name(ingredient) != nil && Ingredient.find_by_name(ingredient).id == new_ingredient.id()
     if @recipe.ingredients.length != 0
       found = nil
       @recipe.ingredients.each do |ingredient|
         if ingredient.name() == new_ingredient.name()
           found = true
-        else
         end
       end
       if found != true
@@ -81,15 +87,14 @@ end
 
 post('/recipes/:id/categories') do
   @recipe = Recipe.find(params['id'].to_i)
-  category = params['category']
+  category = params['category'].capitalize()
   new_category = Category.find_or_create_by(name: category)
-  if new_category.save()
+  if Category.find_by_name(category) != nil && Category.find_by_name(category).id == new_category.id()
     if @recipe.categories.length != 0
       found = nil
       @recipe.categories.each do |category|
         if category.name() == new_category.name()
           found = true
-        else
         end
       end
       if found != true

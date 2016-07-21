@@ -1,5 +1,15 @@
 <h1><%= @recipe.name() %></h1>
+
 <a href="/recipes/<%=@recipe.id()%>/edit" class="btn btn-warning active btn-sm" role="button">Edit Recipe</a>
+<% if @recipe.rating > 0 %>
+    <h5>You rated this recipe:</h5>
+  <% counter = 0 %>
+  <% rating_tags = "<span class='glyphicon glyphicon-star'></span>" %>
+  <% until counter == @recipe.rating do %>
+    <% counter += 1 %>
+    <%= rating_tags %>
+  <% end %>
+<% end %>
 <hr>
 <% if @recipe.instruction %>
   <div class="well">
@@ -11,18 +21,18 @@
   </div>
 <% end %>
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-md-2 well">
     <form class="" action="/recipes/<%= @recipe.id() %>/ingredients" method="post">
+      <label for="name">New ingredient:</label>
       <div class="form-group">
-        <label for="name">New ingredient:</label>
         <input id="name" type="text" name="name">
       </div>
       <button type="submit" class="btn btn-primary">Add ingredient</button>
     </form>
     <hr>
     <form class="" action="/recipes/<%= @recipe.id() %>/categories" method="post">
+      <label for="category">New category name:</label>
       <div class="form-group">
-        <label for="category">New category name:</label>
         <input id="category" type="text" name="category">
       </div>
       <button type="submit" class="btn btn-primary">Add Category</button>
@@ -31,43 +41,43 @@
     <form class="" action="/recipes/<%= @recipe.id() %>" method="post">
       <input name= "_method" type="hidden" value="delete">
       <button class = "btn btn-danger" type="submit">Delete Recipe</button>
-    </form>
+    </form action="/recipes/<%= @recipe.id() %>/rating">
     <hr>
-    <h4>Rate This Recipe</h4>
-    <form>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Delicious
-        </label>
-      </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1" checked> Really Good
-        </label>
-      </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1" checked> Pretty Good
-        </label>
-      </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios4" value="option2">
-          Kinda Okay
-        </label>
-      </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="optionsRadios" id="optionsRadios5" value="option2">
-          Total Crap
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+      <h4>Rate This Recipe</h4>
+      <form action="/recipes/<%= @recipe.id()%>/rating" method="post">
+        <div class="radio">
+          <label>
+            <input type="radio" name="rating" id="optionsRadios1" value="5"> Delicious
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="rating" id="optionsRadios2" value="4"> Really Good
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="rating" id="optionsRadios3" value="3" checked> Pretty Good
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="rating" id="optionsRadios4" value="2">
+            Kinda Okay
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="rating" id="optionsRadios5" value="1">
+            Total Crap
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     <hr>
     <a href="/" class="btn btn-default active" role="button">Home</a>
   </div>
-  <div class="col-xs-4">
+  <div class="col-md-5">
     <h4>Ingredients:</h4>
     <ul class="list-group">
       <% @recipe.ingredients.each do |ingredient| %>
@@ -79,7 +89,7 @@
       <% end %>
     </ul>
   </div>
-  <div class="col-xs-4">
+  <div class="col-md-5">
     <h4>Categories this recipe belongs in:</h4>
     <ul class="list-group">
       <% @recipe.categories.each do |category| %>

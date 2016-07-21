@@ -32,7 +32,16 @@
     <h3>Find by name:</h3>
     <ul class="list-group">
       <% @recipes.each do |recipe| %>
-        <li class="list-group-item"><a href="recipes/<%= recipe.id%>"> <%= recipe.name() %> </a></li>
+        <li class="list-group-item"><a href="recipes/<%= recipe.id%>"> <%= recipe.name() %></a>
+          <% if recipe.rating > 0 %>
+            <% counter = 0 %>
+            <% rating_tags = "<span class='glyphicon glyphicon-star pull-right'></span>" %>
+            <% until counter == recipe.rating do %>
+              <% counter += 1 %>
+              <%= rating_tags %>
+            <% end %>
+          <% end %>
+        </li>
       <% end %>
     </ul>
     <!-- </div> -->
