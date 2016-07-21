@@ -1,7 +1,25 @@
 
-.front-delete {
+.front-delete, x-delete {
   background-color: #DD7722;
   display: inline;
   margin-left: 70%;
   margin-top: -9%;
+}
+
+li {
+  font-size: 1.5em;
+}
+
+li:hover {
+  background-color: lightblue;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+a, a:hover {
+  color: darkblue;
+  text-decoration: none;
+}
+h4, h3 {
+    text-decoration: underline;
 }

@@ -1,4 +1,8 @@
-<h2>Welcome to recipe box.</h1>
+<div class="head_section row">
+  <div class="col-xs-6">
+    <h2>Your kitchen Assistant.</h1>
+  </div>
+</div>
 
 <div class="row container">
   <div class="col-xs-4">
@@ -26,9 +30,14 @@
         </li>
       <% end %>
     </ul>
-
   </div>
   <div class="col-xs-4">
+    <h4>Add a New Recipe</h4>
+    <label for="name">Recipe Name:</label>
+    <form action="/recipes" method="post">
+        <input type="text" name="name" id="name">
+        <button class = "btn btn-primary" type="submit" name="button">Add Recipe</button>
+    </form>
     <h3>Find by name:</h3>
     <ul class="list-group">
       <% @recipes.each do |recipe| %>
@@ -46,18 +55,5 @@
     </ul>
     <!-- </div> -->
 
-
-</div>
-<div class="row container">
-  <div class="col-xs-12">
-    <div class="pull-right">
-      <h3>Add a new recipe:</h3>
-      <form action="/recipes" method="post">
-          <label for="name">Recipe Name:</label>
-          <input type="text" name="name" id="name">
-          <button class = "btn btn-primary" type="submit" name="button">Add Recipe</button>
-      </form>
-    <div>
-  </div>
 
 </div>
