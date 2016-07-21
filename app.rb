@@ -78,10 +78,8 @@ post('/recipes/:id/ingredients') do
     else
       @recipe.ingredients.push(new_ingredient)
     end
-    redirect to ('/recipes/' + @recipe.id().to_s)
-  else
-    redirect to ('/recipes/' + @recipe.id().to_s)
   end
+  redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
 
@@ -103,10 +101,8 @@ post('/recipes/:id/categories') do
     else
       @recipe.categories.push(new_category)
     end
-    redirect to ('/recipes/' + @recipe.id().to_s)
-  else
-    redirect to ('/recipes/' + @recipe.id().to_s)
   end
+  redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
 delete('/recipes/:id') do
