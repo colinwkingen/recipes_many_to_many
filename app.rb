@@ -12,8 +12,12 @@ end
 
 post('/recipes') do
   name = params.fetch('name')
-  @new_recipe = Recipe.create({name: name})
-  redirect to('/')
+  if name.length >= 3
+    @new_recipe = Recipe.create({name: name})
+    redirect to('/')
+  else
+    redirect to('/')
+  end
 end
 
 get('/recipes/:id') do
@@ -32,21 +36,6 @@ get('/categories/:id') do
   @recipes = @category.recipes()
   erb(:category)
 end
-
-# post('/recipes/:id/ingredients') do
-#   @recipe = Recipe.find(params['id'].to_i)
-#   name = params['name']
-#   if Ingredient.exists?(name) == false
-#     new_ingredient = Ingredient.create({name: name})
-#     @recipe.ingredients.push(new_ingredient)
-#   else
-#     found_ingredient = Ingredient.find_by_name(name)
-#     if Ingredient.find_by_name(found_ingredient.name()) == found_ingredient
-#       @recipe.ingredients.push(found_ingredient)
-#     end
-#   end
-#   redirect to ('/recipes/' + @recipe.id().to_s)
-# end
 
 
 post('/recipes/:recipe_id/ingredients/:ingredient_id/remove') do
@@ -68,22 +57,25 @@ post('/recipes/:id/ingredients') do
   @recipe = Recipe.find(params['id'].to_i)
   ingredient = params['name']
   new_ingredient = Ingredient.find_or_create_by(name: ingredient)
-  if @recipe.ingredients.length != 0
-    found = nil
-    @recipe.ingredients.each do |ingredient|
-      if ingredient.name() == new_ingredient.name()
-        found = true
-      else
-        # found = true
+  if new_ingredient.save()
+    if @recipe.ingredients.length != 0
+      found = nil
+      @recipe.ingredients.each do |ingredient|
+        if ingredient.name() == new_ingredient.name()
+          found = true
+        else
+        end
       end
-    end
-    if found != true
+      if found != true
+        @recipe.ingredients.push(new_ingredient)
+      end
+    else
       @recipe.ingredients.push(new_ingredient)
     end
+    redirect to ('/recipes/' + @recipe.id().to_s)
   else
-    @recipe.ingredients.push(new_ingredient)
+    redirect to ('/recipes/' + @recipe.id().to_s)
   end
-  redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
 
@@ -91,22 +83,25 @@ post('/recipes/:id/categories') do
   @recipe = Recipe.find(params['id'].to_i)
   category = params['category']
   new_category = Category.find_or_create_by(name: category)
-  if @recipe.categories.length != 0
-    found = nil
-    @recipe.categories.each do |category|
-      if category.name() == new_category.name()
-        found = true
-      else
-
+  if new_category.save()
+    if @recipe.categories.length != 0
+      found = nil
+      @recipe.categories.each do |category|
+        if category.name() == new_category.name()
+          found = true
+        else
+        end
       end
-    end
-    if found != true
+      if found != true
+        @recipe.categories.push(new_category)
+      end
+    else
       @recipe.categories.push(new_category)
     end
+    redirect to ('/recipes/' + @recipe.id().to_s)
   else
-    @recipe.categories.push(new_category)
+    redirect to ('/recipes/' + @recipe.id().to_s)
   end
-  redirect to ('/recipes/' + @recipe.id().to_s)
 end
 
 delete('/recipes/:id') do

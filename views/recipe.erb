@@ -10,7 +10,6 @@
     </p>
   </div>
 <% end %>
-
 <div class="row">
   <div class="col-xs-4">
     <form class="" action="/recipes/<%= @recipe.id() %>/ingredients" method="post">
@@ -34,6 +33,38 @@
       <button class = "btn btn-danger" type="submit">Delete Recipe</button>
     </form>
     <hr>
+    <h4>Rate This Recipe</h4>
+    <form>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> Delicious
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1" checked> Really Good
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1" checked> Pretty Good
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios4" value="option2">
+          Kinda Okay
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios5" value="option2">
+          Total Crap
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <hr>
     <a href="/" class="btn btn-default active" role="button">Home</a>
   </div>
   <div class="col-xs-4">
@@ -52,7 +83,7 @@
     <h4>Categories this recipe belongs in:</h4>
     <ul class="list-group">
       <% @recipe.categories.each do |category| %>
-        <li class="list-group-item"> <%= category.name() %> 
+        <li class="list-group-item"> <%= category.name() %>
           <form class="" action="/recipes/<%= @recipe.id() %>/categories/<%= category.id() %>/remove" method="post">
             <button class = "glyphicon glyphicon-remove" type="submit"></button>
           </form>
